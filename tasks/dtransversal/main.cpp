@@ -15,6 +15,7 @@ namespace {
             boinc_finish(1);
             exit(1);
         }
+        std::cerr << "Input file is: " << resolved_input << std::endl;
 
         std::ifstream fin(resolved_input);
         if (!fin) {
