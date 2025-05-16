@@ -8,6 +8,7 @@ sudo apt-get install boinc-client boinc-manager
 sudo systemctl start boinc-client
 sudo usermod -a -G boinc $USER
 sudo systemctl restart boinc-client
+sudo usermod -a -G boinc $USER
 
 URL=http://89.169.171.76/myboinc
 EMAIL=$(hostname)@mail.com
