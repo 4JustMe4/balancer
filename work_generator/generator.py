@@ -14,7 +14,7 @@ def formatName(i):
 with open(f'../data/latin{SQUARE_SIZE}x{SQUARE_SIZE}') as f:
     data = f.read().split('\n')
 
-random.shuffle(data)
+# random.shuffle(data)
 for i in range(TASKS_NUMBER):
     if i % 10 == 0:
         print(f'create task number {i}')
@@ -31,7 +31,8 @@ for i in range(TASKS_NUMBER):
 cwd = os.getcwd()
 os.chdir('/home/boincadm/projects/myboinc')
 
-for i in range(TASKS_NUMBER):
-    result = subprocess.check_output(['bin/submit_job', 'DTransversal', os.path.join(cwd, formatName(i))]).decode()
-    print(result)
-    time.sleep(1)
+for name in ['Transversal', 'DTransversal']:
+    for i in range(TASKS_NUMBER):
+        result = subprocess.check_output(['bin/submit_job', name, os.path.join(cwd, formatName(i))]).decode()
+        print(result)
+        time.sleep(0.1)
