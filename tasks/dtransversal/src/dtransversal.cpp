@@ -19,7 +19,7 @@ namespace {
         return oss.str();
     }
 
-    uint64_t transversalNumberImpl(
+    uint64_t dtransversalNumberImpl(
         const TSquare& s,
         int n,
         int row,
@@ -37,9 +37,6 @@ namespace {
         }
         uint64_t ans = 0;
         for (int i = 0; i < n; i++) {
-            if (row == 0) {
-                std::cerr << getFormatedTime() << " Try to use " << i << " as first element" << std::endl;
-            }
             if (hasMain && i == row)
                 continue;
             if (hasSub && i + row == n - 1)
@@ -52,7 +49,7 @@ namespace {
             usedCoulmn[i] = usedNumber[s[row][i]] = 1;
             if (i == row) hasMain = true;
             if (i + row == n - 1) hasSub = true;
-            ans += transversalNumberImpl(s, n, row + 1, usedNumber, usedCoulmn, hasMain, hasSub);
+            ans += dtransversalNumberImpl(s, n, row + 1, usedNumber, usedCoulmn, hasMain, hasSub);
             if (i == row) hasMain = false;
             if (i + row == n - 1) hasSub = false;
             usedCoulmn[i] = usedNumber[s[row][i]] = 0;
@@ -61,10 +58,16 @@ namespace {
     }
 }
 
-uint64_t transversalNumber(const TSquare& s) {
-    int n = s.size();
-    std::bitset<MAX_SQUARE_SIZE> usedNumber;
-    std::bitset<MAX_SQUARE_SIZE> usedCoulmn;
-    assert(n < MAX_SQUARE_SIZE);
-    return transversalNumberImpl(s, n, 0, usedNumber, usedCoulmn, 0, 0);
+uint64_t dtransversalNumber(const TSquare& s) {
+    int limit = s.size() == 10 ? 40 : 1;
+    uint64_t result;
+    for (int i = 0; i < limit; i++) {
+        std::cerr << getFormatedTime() << " Cacl DTransversal number" << std::endl;
+        int n = s.size();
+        std::bitset<MAX_SQUARE_SIZE> usedNumber;
+        std::bitset<MAX_SQUARE_SIZE> usedCoulmn;
+        assert(n < MAX_SQUARE_SIZE);
+        result = dtransversalNumberImpl(s, n, 0, usedNumber, usedCoulmn, 0, 0);
+    }
+    return result;
 }

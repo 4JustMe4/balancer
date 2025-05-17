@@ -53,10 +53,7 @@ int main(int argc, char* argv[]) {
     boinc_init();
 
     auto s = readInput();
-    uint64_t result;
-    for (int i = 0; i < 40; i++) {
-        result = transversalNumber(s);
-    }
+    auto result = transversalNumber(s);
     writeOutput(result);
     
     boinc_finish(0);

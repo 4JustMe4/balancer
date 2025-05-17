@@ -3,4 +3,4 @@
 
 using TSquare = std::vector<std::vector<uint8_t>>;
 
-uint64_t transversalNumber(const TSquare& s);
+uint64_t dtransversalNumber(const TSquare& s);
