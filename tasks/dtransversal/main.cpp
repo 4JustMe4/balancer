@@ -10,17 +10,18 @@ namespace {
     constexpr int MAX_FILENAME_LENGTH = 1024;
     TSquare readInput() {
         char resolved_input[MAX_FILENAME_LENGTH];
-        int retval = boinc_resolve_filename("input.txt", resolved_input, sizeof(resolved_input));
+        int retval = boinc_resolve_filename("in", resolved_input, sizeof(resolved_input));
         if (retval) {
+            std::cerr << "Can't resolve input file" << std::endl;
             boinc_finish(1);
-            exit(1);
+            return {};
         }
         std::cerr << "Input file is: " << resolved_input << std::endl;
-
         std::ifstream fin(resolved_input);
         if (!fin) {
+            std::cerr << "Can't open input " << resolved_input << std::endl;
             boinc_finish(2);
-            exit(2);
+            return {};
         }
         int n;
         fin >> n;
@@ -36,10 +37,11 @@ namespace {
 
     void writeOutput(uint64_t result) {
         char resolved_output[MAX_FILENAME_LENGTH];
-        int retval = boinc_resolve_filename("output.txt", resolved_output, sizeof(resolved_output));
+        int retval = boinc_resolve_filename("out", resolved_output, sizeof(resolved_output));
         if (retval) {
-            boinc_finish(3); // Ошибка: не найден выходной файл
-            exit(3);
+            std::cerr << "Can't open output file " << std::endl;
+            boinc_finish(3);
+            return;
         }
         std::ofstream fout(resolved_output);
         fout << result << std::endl;
@@ -51,7 +53,10 @@ int main(int argc, char* argv[]) {
     boinc_init();
 
     auto s = readInput();
-    auto result = transversalNumber(s);
+    uint64_t result;
+    for (int i = 0; i < 40; i++) {
+        result = transversalNumber(s);
+    }
     writeOutput(result);
     
     boinc_finish(0);
