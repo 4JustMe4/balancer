@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.20)
 
 project(DDTransversal)
 
+set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+
 # Boinc
 find_path(BOINC_INCLUDE_DIR NAMES boinc_api.h PATHS /usr/include/boinc)
 if (NOT BOINC_INCLUDE_DIR)
@@ -38,7 +40,7 @@ file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "${DIR_SOURCES}/*.cpp")
 # file(GLOB_RECURSE CXXOPTS_HEADERS CONFIGURE_DEPENDS "${DIR_CXXOPTS_HEADERS}/*.hpp")
 
 add_executable(DTransversal main.cpp ${SOURCES})
-target_link_libraries(DTransversal PRIVATE ${BOINC_LIBRARY})
 target_link_libraries(DTransversal PRIVATE ${BOINC_LIBRARY_API})
+target_link_libraries(DTransversal PRIVATE ${BOINC_LIBRARY})
 target_include_directories(DTransversal PUBLIC ${DIR_HEADERS})
 # target_include_directories(DTransversal PUBLIC ${DIR_CXXOPTS_HEADERS})
