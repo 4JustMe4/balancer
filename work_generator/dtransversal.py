@@ -27,6 +27,9 @@ for i in range(TASKS_NUMBER):
             for row in a:
                 output.write(' '.join(row) + '\n')
 
+cwd = os.getcwd()
+os.chcwd('/home/boincadm/projects/myboinc')
+
 for i in range(TASKS_NUMBER):
-    result = subprocess.check_output(['/home/boincadm/projects/myboinc/bin/submit_job', 'DTransversal', formatName(i)])
+    result = subprocess.check_output(['bin/submit_job', 'DTransversal', os.path.jsoin(cwd, formatName(i))])
     print(result)
