@@ -1,6 +1,7 @@
 import os
 import random
 import subprocess
+import time
 
 
 TASKS_NUMBER = 100
@@ -33,3 +34,4 @@ os.chdir('/home/boincadm/projects/myboinc')
 for i in range(TASKS_NUMBER):
     result = subprocess.check_output(['bin/submit_job', 'DTransversal', os.path.join(cwd, formatName(i))])
     print(result)
+    time.sleep(1)
