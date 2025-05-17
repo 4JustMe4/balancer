@@ -2,6 +2,10 @@
 
 #include <bitset>
 #include <cassert>
+#include <chrono>
+#include <ctime>
+#include <iomanip>
+#include <iostream>
 
 namespace {
     constexpr int MAX_SQUARE_SIZE = 128;
@@ -48,7 +52,7 @@ uint64_t transversalNumber(const TSquare& s) {
         std::bitset<MAX_SQUARE_SIZE> usedNumber;
         std::bitset<MAX_SQUARE_SIZE> usedCoulmn;
         assert(n < MAX_SQUARE_SIZE);
-        result = transversalNumberImpl(s, n, 0, usedNumber, usedCoulmn, 0, 0);
+        result = transversalNumberImpl(s, n, 0, usedNumber, usedCoulmn);
     }
     return result;
 }
