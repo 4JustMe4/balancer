@@ -1,0 +1,3 @@
+boinc-client-01
+boinc-client-02
+namikhnenko-ubuntu
