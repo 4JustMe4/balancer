@@ -28,8 +28,8 @@ for i in range(TASKS_NUMBER):
                 output.write(' '.join(row) + '\n')
 
 cwd = os.getcwd()
-os.chcwd('/home/boincadm/projects/myboinc')
+os.chdir('/home/boincadm/projects/myboinc')
 
 for i in range(TASKS_NUMBER):
-    result = subprocess.check_output(['bin/submit_job', 'DTransversal', os.path.jsoin(cwd, formatName(i))])
+    result = subprocess.check_output(['bin/submit_job', 'DTransversal', os.path.join(cwd, formatName(i))])
     print(result)
