@@ -35,4 +35,4 @@ for name in ['Transversal', 'DTransversal']:
     for i in range(TASKS_NUMBER):
         result = subprocess.check_output(['bin/submit_job', name, os.path.join(cwd, formatName(i))]).decode()
         print(result)
-        time.sleep(0.1)
+        time.sleep(0.3)
