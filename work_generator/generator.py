@@ -37,7 +37,7 @@ for i in range(TASKS_NUMBER):
             output.write(getText(a))
 
 cwd = os.getcwd()
-os.chdir()
+os.chdir(BOINC_ROOT)
 
 for name in ['Transversal', 'DTransversal']:
         files = [formatName(i) for i in range(TASKS_NUMBER)]
