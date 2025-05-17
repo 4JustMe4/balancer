@@ -4,7 +4,7 @@ import subprocess
 import time
 
 
-TASKS_NUMBER = 100
+TASKS_NUMBER = 50
 SQUARE_SIZE = 10
 
 
@@ -32,7 +32,7 @@ cwd = os.getcwd()
 os.chdir('/home/boincadm/projects/myboinc')
 
 for name in ['Transversal', 'DTransversal']:
-    for i in range(TASKS_NUMBER):
-        result = subprocess.check_output(['bin/submit_job', name, os.path.join(cwd, formatName(i))]).decode()
+        files = [os.path.join(cwd, formatName(i)) for i in range(TASKS_NUMBER)]
+        result = subprocess.check_output(['bin/create_work', '--appname', name] + files).decode()
         print(result)
         time.sleep(1)
