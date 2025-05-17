@@ -32,6 +32,6 @@ cwd = os.getcwd()
 os.chdir('/home/boincadm/projects/myboinc')
 
 for i in range(TASKS_NUMBER):
-    result = subprocess.check_output(['bin/submit_job', 'DTransversal', os.path.join(cwd, formatName(i))])
+    result = subprocess.check_output(['bin/submit_job', 'DTransversal', os.path.join(cwd, formatName(i))]).decode()
     print(result)
     time.sleep(1)
