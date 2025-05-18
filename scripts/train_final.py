@@ -87,3 +87,7 @@ print("\n=== Модель для ПРОГНОЗА cpu_time ===")
 print(f"MAE:  {mae:.4f}   # (средняя абсолютная ошибка)")
 print(f"RMSE: {rmse:.4f}   # (корень среднеквадратичной ошибки)")
 print(f"R²:   {r2:.4f}   # (коэффициент детерминации)")
+
+
+clf.save_model("../data/catboost_success_model.cbm")
+reg.save_model("../data/catboost_time_model.cbm")
