@@ -3,7 +3,10 @@ import pymysql
 
 conn = pymysql.connect(host='localhost', user='boincadm', password='foobar99', db='boincdb')
 
-query = """
+beg = 956
+end = beg + 200
+
+query = f"""
 SELECT
   r.id                AS result_id,
   r.workunitid        AS workunit_id,
@@ -62,11 +65,11 @@ JOIN
 JOIN
   host h ON r.hostid = h.id
 WHERE
-  r.workunitid >= 956
-  AND r.workunitid < 1156
+  r.workunitid >= {beg}
+  AND r.workunitid < {end}
 
 """
 
 df = pd.read_sql(query, conn)
-df.to_csv("boinc_result_host_dataset.csv", index=False)
+df.to_csv(f"../data/boinc_result_host_dataset_{beg}.csv", index=False)
 
