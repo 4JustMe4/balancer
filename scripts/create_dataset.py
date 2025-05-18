@@ -62,8 +62,8 @@ JOIN
 JOIN
   host h ON r.hostid = h.id
 WHERE
-  r.workunitid >= 752
-  AND r.workunitid < 952
+  r.workunitid >= 956
+  AND r.workunitid < 1156
 
 """
 
