@@ -1,3 +1,7 @@
 boinc-client-01
 boinc-client-02
+boinc-client-03
+boinc-client-04
+boinc-client-05
+boinc-client-06
 namikhnenko-ubuntu
