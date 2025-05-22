@@ -10,7 +10,7 @@ TASKS_NUMBER = 100
 SQUARE_SIZE = 10
 
 
-def formatName(i, suff, square):
+def formatName(i, suff):
     n = SQUARE_SIZE * 2
     return f'../data/latin{n}x{n}_task_{i}_{suff}'
 
@@ -115,10 +115,10 @@ def create_tasks(squares):
                 if not verifyLatinSquare(doubelSquare):
                     click.echo(f"Can't create doubel square from {i + 1}")
                 else:
-                    f = os.path.abspath(formatName(currentNum, suff))
+                    f = os.path.abspath(formatName(currentNum // 2, suff))
                     printLatinSquare(doubelSquare, f)
                     currentNum += 1
-            if currentNum >= 2 * TASKS_NUMBER:
+            if currentNum >= 2 * squares:
                 break
         else:
             click.echo(f"Ignore line {i + 1}. Unexpected length {len(data[i])}")
@@ -128,9 +128,10 @@ def create_tasks(squares):
 
     for name in ['Transversal', 'DTransversal']:
         click.echo(f"Register inputs for {name}")
-        for i in range(TASKS_NUMBER):
-            absPathFile = os.path.join(cwd, formatName(i, suff))
+        for i in range(squares):
+            absPathFile = os.path.join(cwd, formatName(i, name))
             filename = os.path.basename(absPathFile)
+            print(absPathFile, filename)
             shutil.copy(absPathFile, filename)
             result = subprocess.check_output(['bin/stage_file', filename]).decode()
             click.echo(f"Staging result for {name}: {result}")
