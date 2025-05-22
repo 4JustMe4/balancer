@@ -131,7 +131,7 @@ def create_tasks(squares):
             result = subprocess.check_output(['bin/stage_file', file]).decode()
             click.echo(f"Staging result for {name}: {result}")
 
-            wu_name = f'{name}_{i}_{datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")}'
+            wu_name = f'{name}_{i}_{datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")}'
             result = subprocess.check_output(['bin/create_work', '--appname', name, '--wu_name', wu_name, file]).decode()
             click.echo(f"Creatinf result for {wu_name}: {result}")
 
