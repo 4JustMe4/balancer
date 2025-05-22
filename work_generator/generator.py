@@ -10,8 +10,9 @@ TASKS_NUMBER = 100
 SQUARE_SIZE = 10
 
 
-def formatName(i, suff):
-    return f'../data/latin{SQUARE_SIZE}x{SQUARE_SIZE}_task_{i}_{suff}'
+def formatName(i, suff, square):
+    n = len(square)
+    return f'../data/latin{n}x{n}_task_{i}_{suff}'
 
 
 def isConevrtibleToNumber(square):
