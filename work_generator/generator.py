@@ -2,6 +2,7 @@ import click
 import datetime
 import os
 import random
+import shutil
 import subprocess
 import time
 
@@ -127,7 +128,8 @@ def create_tasks(squares):
     for name in ['Transversal', 'DTransversal']:
         click.echo(f"Register inputs for {name}")
         for i in range(TASKS_NUMBER):
-            file = os.path.join(cwd, formatName(i, suff))
+            file = formatName(i, suff)
+            shutil.copy(os.path.join(cwd, file), file)
             result = subprocess.check_output(['bin/stage_file', file]).decode()
             click.echo(f"Staging result for {name}: {result}")
 
