@@ -11,7 +11,7 @@ SQUARE_SIZE = 10
 
 
 def formatName(i, suff, square):
-    n = len(square)
+    n = SQUARE_SIZE * 2
     return f'../data/latin{n}x{n}_task_{i}_{suff}'
 
 
