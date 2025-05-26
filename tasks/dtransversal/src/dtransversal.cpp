@@ -6,6 +6,7 @@
 #include <ctime>
 #include <iomanip>
 #include <iostream>
+#include <sstream>
 
 namespace {
     constexpr int MAX_SQUARE_SIZE = 128;
