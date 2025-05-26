@@ -46,5 +46,7 @@ elapsed_hours = (last_received_time - first_sent_time) / 3600
 # ---- ВЫВОД ----
 print(f"Задания workunit_id в диапазоне [{workunit_start}, {workunit_end}):")
 print(f"- Среднее время cpu_time: {mean_cpu_time:.3f} сек")
+print(df['cpu_time'][df['cpu_time'] > 0].min())
+print(df['cpu_time'][df['cpu_time'] > 0].max())
 print(f"- Количество ошибок (outcome != 1): {errors} из {total} ({errors*100/total:.2f}%)")
 print(f"- Временной промежуток (от первого до последнего результата): {elapsed_hours:.2f} ч")
