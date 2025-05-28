@@ -23,30 +23,35 @@ EXCLUDE_REG = EXCLUDE_CLF + [
 ]
 
 
-def splitDataset(X, y):
+def splitClfDataset(X, y):
+    return train_test_split(X, y, stratify=y, test_size=0.2, random_state=42)
+
+
+def splitRegDataset(X, y):
     return train_test_split(X, y, test_size=0.2, random_state=42)
 
 
-def readClassifire():
+def readDataSet():
     df = pd.read_csv('../data/df_with_matrix.csv')
-    
     df['success'] = (df['outcome'] == 1).astype(int)
+    return df
+
+
+def readClassifire():
+    df = readDataSet()
     
     features_clf = [c for c in df.columns if c not in EXCLUDE_CLF]
     mat_cols = [col for col in df.columns if col.startswith('mat_')]
+    cat_features_clf = [c for c in features_clf if df[c].dtype == 'object' or c.startswith('mat_')]
     
     for col in mat_cols:
         df[col] = df[col].fillna(-1).astype(int)
-    
-    cat_features_clf = [c for c in features_clf if df[c].dtype == 'object']
     
     return df[features_clf], df['success'], cat_features_clf
 
 
 def readRegressor():
-    df = pd.read_csv('../data/df_with_matrix.csv')
-    
-    df['success'] = (df['outcome'] == 1).astype(int)
+    df = readDataSet()
     
     features_reg = [c for c in df.columns if c not in EXCLUDE_REG]
     mat_cols = [col for col in df.columns if col.startswith('mat_')]
@@ -54,8 +59,6 @@ def readRegressor():
     
     for col in mat_cols:
         df[col] = df[col].fillna(-1).astype(int)
-    
-    cat_features_clf = [c for c in features_reg if df[c].dtype == 'object' or c.startswith('mat_')]
 
     return df[features_reg], df['cpu_time'], cat_features_reg
 
@@ -68,7 +71,7 @@ def printClfMetrics(yc_test, y_pred_clf, y_prob_clf):
     print(f"F1-score:  {f1_score(yc_test, y_pred_clf):.4f}         # (гармоническое среднее precision и recall)")
 
 
-def printRegMetrics(yc_test, y_pred_clf, y_prob_clf):
+def printRegMetrics(yr_test, y_pred_reg):
     mae = mean_absolute_error(yr_test, y_pred_reg)
     rmse = np.sqrt(mean_squared_error(yr_test, y_pred_reg))
     r2 = r2_score(yr_test, y_pred_reg)
