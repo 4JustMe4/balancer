@@ -63,28 +63,31 @@ def readRegressor():
     return df[features_reg], df['cpu_time'], cat_features_reg
 
 
-def printClfMetrics(yc_test, y_pred_clf, y_prob_clf):
-    print(f"Accuracy:  {accuracy_score(yc_test, y_pred_clf):.4f}  # (доля верных ответов)")
-    print(f"ROC-AUC:   {roc_auc_score(yc_test, y_prob_clf):.4f}   # (чувствительность vs 1-специфичность)")
-    print(f"Precision: {precision_score(yc_test, y_pred_clf):.4f}  # (точность: TP / (TP+FP))")
+def printClfMetrics(name, yc_test, y_pred_clf, y_prob_clf):
+    print(f'Metrix for {name}')
+    print(f"Accuracy:  {accuracy_score(yc_test, y_pred_clf):.4f}     # (доля верных ответов)")
+    print(f"ROC-AUC:   {roc_auc_score(yc_test, y_prob_clf):.4f}     # (чувствительность vs 1-специфичность)")
+    print(f"Precision: {precision_score(yc_test, y_pred_clf):.4f}     # (точность: TP / (TP+FP))")
     print(f"Recall:    {recall_score(yc_test, y_pred_clf):.4f}     # (полнота: TP / (TP+FN))")
-    print(f"F1-score:  {f1_score(yc_test, y_pred_clf):.4f}         # (гармоническое среднее precision и recall)")
+    print(f"F1-score:  {f1_score(yc_test, y_pred_clf):.4f}     # (гармоническое среднее precision и recall)")
 
 
-def printRegMetrics(yr_test, y_pred_reg):
+def printRegMetrics(name, yr_test, y_pred_reg):
     mae = mean_absolute_error(yr_test, y_pred_reg)
     rmse = np.sqrt(mean_squared_error(yr_test, y_pred_reg))
     r2 = r2_score(yr_test, y_pred_reg)
+    print(f'Metrix for {name}')
     print(f"MAE:  {mae:.4f}   # (средняя абсолютная ошибка)")
     print(f"RMSE: {rmse:.4f}   # (корень среднеквадратичной ошибки)")
     print(f"R²:   {r2:.4f}   # (коэффициент детерминации)")
 
+
 def sanitizeNames(df):
     df.columns = (
         df.columns
-        .str.replace(r"$$", "_", regex=True)
-        .str.replace(r"$$", "_", regex=True)
-        .str.replace(r"&lt;", "_", regex=True)
-        .str.replace(r"&gt;", "_", regex=True)
+        .str.replace(r"\[", "_", regex=True)
+        .str.replace(r"\]", "_", regex=True)
+        .str.replace(r"<", "_", regex=True)
+        .str.replace(r">", "_", regex=True)
     )
     return df
