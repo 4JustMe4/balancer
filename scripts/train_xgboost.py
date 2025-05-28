@@ -1,15 +1,27 @@
 import pandas as pd
-from catboost import CatBoostClassifier, CatBoostRegressor
+import numpy as np
+
+from xgboost import XGBClassifier, XGBRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import (
     accuracy_score, roc_auc_score, precision_score, recall_score, f1_score,
     mean_absolute_error, mean_squared_error, r2_score
 )
-import numpy as np
+import joblib
 
 df = pd.read_csv('../data/df_with_matrix.csv')
 
 df['success'] = (df['outcome'] == 1).astype(int)
+
+def clean_column_names(df):
+    df.columns = (
+        df.columns
+        .str.replace(r"\[", "_", regex=True)
+        .str.replace(r"\]", "_", regex=True)
+        .str.replace(r"<", "_", regex=True)
+        .str.replace(r">", "_", regex=True)
+    )
+    return df
 
 exclude_clf = [
     'result_id','host_id','workunit_id','result_create_time',
@@ -25,14 +37,15 @@ for col in mat_cols:
 
 cat_features_clf = [c for c in features_clf if df[c].dtype == 'object' or c.startswith('mat_')]
 
-X_clf = df[features_clf]
+# XGBoost не умеет работать с категориальными напрямую в sklearn API, нужно закодировать:
+X_clf = clean_column_names(pd.get_dummies(df[features_clf], columns=cat_features_clf))
 y_clf = df['success']
 Xc_train, Xc_test, yc_train, yc_test = train_test_split(
     X_clf, y_clf, stratify=y_clf, test_size=0.2, random_state=42
 )
 
-clf = CatBoostClassifier(iterations=300, verbose=100)
-clf.fit(Xc_train, yc_train, cat_features=cat_features_clf, eval_set=(Xc_test, yc_test))
+clf = XGBClassifier(n_estimators=300, use_label_encoder=False, eval_metric='logloss', verbosity=1)
+clf.fit(Xc_train, yc_train, eval_set=[(Xc_test, yc_test)], verbose=100)
 
 y_pred_clf = clf.predict(Xc_test)
 y_prob_clf = clf.predict_proba(Xc_test)[:, 1]
@@ -52,17 +65,16 @@ exclude_reg = exclude_clf + [
     'gpu_active_frac','p_ngpus','p_gpu_fpops'
 ]
 features_reg = [c for c in df.columns if c not in exclude_reg]
-
 cat_features_reg = [c for c in features_reg if df[c].dtype == 'object']
 
-X_reg = df[features_reg]
+X_reg = clean_column_names(pd.get_dummies(df[features_reg], columns=cat_features_reg))
 y_reg = df['cpu_time']
 Xr_train, Xr_test, yr_train, yr_test = train_test_split(
     X_reg, y_reg, test_size=0.2, random_state=42
 )
 
-reg = CatBoostRegressor(iterations=300, verbose=100)
-reg.fit(Xr_train, yr_train, cat_features=cat_features_reg, eval_set=(Xr_test, yr_test))
+reg = XGBRegressor(n_estimators=300, verbosity=1)
+reg.fit(Xr_train, yr_train, eval_set=[(Xr_test, yr_test)], verbose=100)
 
 y_pred_reg = reg.predict(Xr_test)
 
@@ -74,6 +86,6 @@ print(f"MAE:  {mae:.4f}   # (средняя абсолютная ошибка)")
 print(f"RMSE: {rmse:.4f}   # (корень среднеквадратичной ошибки)")
 print(f"R²:   {r2:.4f}   # (коэффициент детерминации)")
 
-
-clf.save_model("../data/catboost_success_model.cbm")
-reg.save_model("../data/catboost_time_model.cbm")
+# Сохраняем модели
+joblib.dump(clf, "../data/xgboost_success_model.joblib")
+joblib.dump(reg, "../data/xgboost_time_model.joblib")
