@@ -78,3 +78,13 @@ def printRegMetrics(yr_test, y_pred_reg):
     print(f"MAE:  {mae:.4f}   # (средняя абсолютная ошибка)")
     print(f"RMSE: {rmse:.4f}   # (корень среднеквадратичной ошибки)")
     print(f"R²:   {r2:.4f}   # (коэффициент детерминации)")
+
+def sanitizeNames(df):
+    df.columns = (
+        df.columns
+        .str.replace(r"$$", "_", regex=True)
+        .str.replace(r"$$", "_", regex=True)
+        .str.replace(r"&lt;", "_", regex=True)
+        .str.replace(r"&gt;", "_", regex=True)
+    )
+    return df
