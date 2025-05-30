@@ -1,7 +1,7 @@
 import os
 import re
 
-BASE_DIR = os.path.expanduser('~/projects/myboinc/upload')
+BASE_DIR = os.path.expanduser('~/projects/myboinc/results/0')
 
 transversal_re = re.compile(r'^Transversal_(\d{1,5})_')
 
