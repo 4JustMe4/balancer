@@ -8,7 +8,7 @@ def produce(regex):
     number_to_filename = dict()
     value_to_number = dict()
 
-    for results_dir in [os.path.join(PROJECT_DIR, 'result'), os.path.join(PROJECT_DIR, 'upload')]
+    for results_dir in [os.path.join(PROJECT_DIR, 'result'), os.path.join(PROJECT_DIR, 'upload')]:
         for root, dirs, files in os.walk(results_dir):
             for fname in files:
                 match = regex.match(fname)
