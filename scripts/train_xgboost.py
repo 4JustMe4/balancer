@@ -30,7 +30,6 @@ def trainXGBoostReg():
     y_pred_reg = reg.predict(Xr_test)
 
     printRegMetrics("XGBoost", yr_test, y_pred_reg)
-
     joblib.dump(reg, "../data/xgboost_time_model.joblib")
 
 
