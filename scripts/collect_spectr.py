@@ -22,11 +22,11 @@ for root, dirs, files in os.walk(BASE_DIR):
                     content = f.read().strip()
                     first_line = next(filter(None, content.splitlines()))
                     val = int(first_line)
-                    value_to_number.setdefault(val, number)
+                    value_to_number.setdefault(val, full_path)
             except Exception as e:
                 print(f"Can't read file {full_path}: {e}")
 
-expected_numbers = set(range(0, 2000))
+expected_numbers = set(range(0, 2001))
 missing_numbers = sorted(expected_numbers - found_numbers)
 
 print("Missed squares:", missing_numbers)
