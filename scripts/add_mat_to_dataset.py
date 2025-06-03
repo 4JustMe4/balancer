@@ -2,8 +2,9 @@ import pandas as pd
 import numpy as np
 import os
 
-df = pd.read_csv('../data/boinc_result_host_dataset_2066.csv')
+beg = 2066
 SIZE = 20
+df = pd.read_csv('../data/boinc_result_host_dataset_{beg}.csv')
 
 mat_feature_names = [f'mat_{i}_{j}' for i in range(SIZE) for j in range(SIZE)]
 
@@ -28,4 +29,4 @@ df.drop('workunit_name', axis=1)
 
 print(df.head())
 
-df.to_csv('../data/df_with_matrix.csv', index=False)
+df.to_csv('../data/df_with_matrix_{SIZE}_{beg}.csv', index=False)
