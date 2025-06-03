@@ -29,4 +29,4 @@ df.drop('workunit_name', axis=1)
 
 print(df.head())
 
-df.to_csv('../data/df_with_matrix_{SIZE}_{beg}.csv', index=False)
+df.to_csv(f'../data/df_with_matrix_{SIZE}_{beg}.csv', index=False)
