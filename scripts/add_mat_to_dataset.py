@@ -18,8 +18,8 @@ def load_matrix(filename):
         return np.array(matrix)
 
 for idx, row in df.iterrows():
-    number = int(raw['workunit_name'].split('_')[1])
-    filename = f'latin{SIZE}x{SIZE}_task_{num}_DTransversal'
+    number = int(row['workunit_name'].split('_')[1])
+    filename = f'latin{SIZE}x{SIZE}_task_{number}_DTransversal'
 
     mat = load_matrix(filename)
     df.loc[idx, mat_feature_names] = mat.flatten()
