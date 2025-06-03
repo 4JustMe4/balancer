@@ -19,6 +19,9 @@ def load_matrix(filename):
         return np.array(matrix)
 
 for idx, row in df.iterrows():
+    if idx % 100 == 0:
+        print(idx)
+
     number = int(row['workunit_name'].split('_')[1])
     filename = f'latin{SIZE}x{SIZE}_task_{number}_DTransversal'
 
