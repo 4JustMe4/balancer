@@ -2,9 +2,10 @@ import pandas as pd
 import numpy as np
 import os
 
-df = pd.read_csv('../data/boinc_result_host_dataset.csv')
+df = pd.read_csv('../data/boinc_result_host_dataset_2066.csv')
+SIZE = 20
 
-mat_feature_names = [f'mat_{i}_{j}' for i in range(10) for j in range(10)]
+mat_feature_names = [f'mat_{i}_{j}' for i in range(SIZE) for j in range(SIZE)]
 
 def load_matrix(filename):
     with open(f'../data/{filename}', 'r') as f:

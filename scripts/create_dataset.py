@@ -11,6 +11,7 @@ SELECT
   r.id                AS result_id,
   r.workunitid        AS workunit_id,
   r.hostid            AS host_id,
+  r.name              AS workunit_name,
 
   r.create_time       AS result_create_time,
   r.server_state,
