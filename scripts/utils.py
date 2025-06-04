@@ -43,7 +43,7 @@ def readDataSet():
     mask = df['success'] == 1
     zero_idxs = df.index[mask]
     n_replace = int(len(zero_idxs) * 0.01)
-    if n_replace > 0:
+    if False and n_replace > 0:
         np.random.seed(42)
         replace_idxs = np.random.choice(zero_idxs, size=n_replace, replace=False)
         df.loc[replace_idxs, 'success'] = 0

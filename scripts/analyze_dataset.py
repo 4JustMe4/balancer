@@ -2,8 +2,10 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
+from utils import readDataSet
+
 # Загрузка данных
-df = pd.read_csv('../data/df_with_matrix.csv')  # или ваш файл
+df = readDataSet()
 
 # Быстрая гистограмма по всем данным (можно также строить по train/test)
 plt.figure(figsize=(8,5))
@@ -16,15 +18,6 @@ plt.show()
 
 print(len(df))
 
-
-# ---- НАСТРОЙКИ ----
-csv_path = "df_with_matrix.csv"    # Ваш файл с результатами
-workunit_start = 752
-workunit_end = 952                # не включительно
-
-
-# ---- ФИЛЬТР ПО ДИАПАЗОНУ ----
-df = df[(df['workunit_id'] >= workunit_start) & (df['workunit_id'] < workunit_end)]
 
 # ---- АНАЛИЗ СРЕДНЕГО ВРЕМЕНИ ----
 mean_cpu_time = df['cpu_time'][df['cpu_time'] > 0].mean()
@@ -44,9 +37,27 @@ if 'received_time' in df.columns and df['received_time'].notna().sum() > 0:
 elapsed_hours = (last_received_time - first_sent_time) / 3600
 
 # ---- ВЫВОД ----
-print(f"Задания workunit_id в диапазоне [{workunit_start}, {workunit_end}):")
+# print(f"Задания workunit_id в диапазоне [{workunit_start}, {workunit_end}):")
 print(f"- Среднее время cpu_time: {mean_cpu_time:.3f} сек")
 print(df['cpu_time'][df['cpu_time'] > 0].min())
 print(df['cpu_time'][df['cpu_time'] > 0].max())
 print(f"- Количество ошибок (outcome != 1): {errors} из {total} ({errors*100/total:.2f}%)")
 print(f"- Временной промежуток (от первого до последнего результата): {elapsed_hours:.2f} ч")
+
+status_counts = df['success'].value_counts().sort_index()
+
+fig, ax = plt.subplots(figsize=(5,4))
+
+bars = ax.bar(
+    ['Неуспех', 'Успех'],
+    [status_counts.get(0, 0), status_counts.get(1, 0)],
+    color=['salmon', 'skyblue'],
+    width=0.7
+)
+
+ax.set_title('Распределение успешности выполнения задач')
+ax.set_xlabel('Статус задачи')
+ax.set_ylabel('Количество')
+ax.set_ylim(0, max(status_counts)*1.1)
+plt.tight_layout()
+plt.show()
