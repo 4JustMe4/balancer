@@ -32,7 +32,12 @@ def splitRegDataset(X, y):
 
 
 def readDataSet():
-    df = pd.read_csv('../data/df_with_matrix.csv')
+    beg = 2066
+    SIZE = 20
+    df1 = pd.read_csv(f'../data/df_with_matrix_{SIZE}_{beg}_part1.csv')
+    df2 = pd.read_csv(f'../data/df_with_matrix_{SIZE}_{beg}_part2.csv')
+    df3 = pd.read_csv(f'../data/df_with_matrix_{SIZE}_{beg}_part3.csv')
+    df = pd.concat([df1, df2, df3], ignore_index=True)
     df['success'] = (df['outcome'] == 1).astype(int)
     return df
 
