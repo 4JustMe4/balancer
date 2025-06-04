@@ -24,7 +24,7 @@ mean_cpu_time = df['cpu_time'][df['cpu_time'] > 0].mean()
 
 # ---- КОЛИЧЕСТВО ОШИБОК ----
 # Ошибка будем считать, например, outcome != 1 (BOINC: 1 -- success)
-errors = df[df['outcome'] != 1].shape[0]
+errors = df[df['success'] != 1].shape[0]
 total   = df.shape[0]
 
 # ---- ПРОМЕЖУТОК ВРЕМЕНИ ОТ ОТПРАВКИ ДО ФИНИША ----
