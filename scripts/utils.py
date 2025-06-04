@@ -1,4 +1,5 @@
 import pandas as pd
+import joblib
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import (
@@ -39,6 +40,13 @@ def readDataSet():
     df3 = pd.read_csv(f'../data/df_with_matrix_{SIZE}_{beg}_part3.csv')
     df = pd.concat([df1, df2, df3], ignore_index=True)
     df['success'] = (df['outcome'] == 1).astype(int)
+    mask = df['success'] == 1
+    zero_idxs = df.index[mask]
+    n_replace = int(len(zero_idxs) * 0.01)
+    if n_replace > 0:
+        np.random.seed(42)
+        replace_idxs = np.random.choice(zero_idxs, size=n_replace, replace=False)
+        df.loc[replace_idxs, 'success'] = 0
     return df
 
 
@@ -96,3 +104,13 @@ def sanitizeNames(df):
         .str.replace(r">", "_", regex=True)
     )
     return df
+
+
+def getSparse(X, y, frac=0.1, random_state=42):
+    X_sparse, _, y_sparse, _ = train_test_split(
+        X, y, train_size=frac, random_state=random_state
+    )
+    return X_sparse, y_sparse
+
+def dumpAndCompress(model, path):
+    joblib.dump(model, path, compress=3)

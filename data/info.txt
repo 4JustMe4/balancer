@@ -3,3 +3,80 @@
 956 + 200
 
 квадраты 20х20 считаются начиная с wu_id 2066
+
+Classifier
+Metrix for LogRes
+Accuracy:  0.9895     # (доля верных ответов)
+ROC-AUC:   0.5288     # (чувствительность vs 1-специфичность)
+Precision: 0.9895     # (точность: TP / (TP+FP))
+Recall:    1.0000     # (полнота: TP / (TP+FN))
+F1-score:  0.9947     # (гармоническое среднее precision и recall)
+Learning rate set to 0.157921
+0:  learn: 0.4028506    test: 0.4028506 best: 0.4028506 (0) total: 228ms    remaining: 1m 8s
+100:    learn: 0.0548940    test: 0.0560775 best: 0.0560368 (97)    total: 1m 35s   remaining: 3m 8s
+200:    learn: 0.0515308    test: 0.0563356 best: 0.0560368 (97)    total: 3m 50s   remaining: 1m 53s
+299:    learn: 0.0471371    test: 0.0565964 best: 0.0560368 (97)    total: 6m 2s    remaining: 0us
+
+bestTest = 0.05603679546
+bestIteration = 97
+
+Shrink model to first 98 iterations.
+Metrix for CatBoost
+Accuracy:  0.9900     # (доля верных ответов)
+ROC-AUC:   0.5648     # (чувствительность vs 1-специфичность)
+Precision: 0.9900     # (точность: TP / (TP+FP))
+Recall:    1.0000     # (полнота: TP / (TP+FN))
+F1-score:  0.9949     # (гармоническое среднее precision и recall)
+Metrix for RandomForest
+Accuracy:  0.9860     # (доля верных ответов)
+ROC-AUC:   0.5274     # (чувствительность vs 1-специфичность)
+Precision: 0.9895     # (точность: TP / (TP+FP))
+Recall:    0.9965     # (полнота: TP / (TP+FN))
+F1-score:  0.9930     # (гармоническое среднее precision и recall)
+/home/mikhnenko/.local/lib/python3.10/site-packages/xgboost/training.py:183: UserWarning: [12:45:24] WARNING: /workspace/src/learner.cc:738: 
+Parameters: { "use_label_encoder" } are not used.
+
+  bst.update(dtrain, iteration=i, fobj=obj)
+[0] validation_0-logloss:0.05881
+[100]   validation_0-logloss:0.09607
+[200]   validation_0-logloss:0.10750
+[299]   validation_0-logloss:0.11307
+Metrix for XGBoost
+Accuracy:  0.9860     # (доля верных ответов)
+ROC-AUC:   0.5340     # (чувствительность vs 1-специфичность)
+Precision: 0.9895     # (точность: TP / (TP+FP))
+Recall:    0.9965     # (полнота: TP / (TP+FN))
+F1-score:  0.9930     # (гармоническое среднее precision и recall)
+
+
+
+Regressor
+Metrix for LogRes
+MAE:  21.2165   # (средняя абсолютная ошибка)
+RMSE: 24.2651   # (корень среднеквадратичной ошибки)
+R²:   0.0825   # (коэффициент детерминации)
+Learning rate set to 0.211177
+0:  learn: 23.0140463   test: 22.9547707    best: 22.9547707 (0)    total: 72.7ms   remaining: 21.7s
+100:    learn: 16.6670740   test: 17.0149018    best: 17.0149018 (100)  total: 5.86s    remaining: 11.5s
+200:    learn: 15.6264402   test: 16.3573437    best: 16.3573437 (200)  total: 11.5s    remaining: 5.67s
+299:    learn: 14.8347280   test: 15.9012211    best: 15.9012211 (299)  total: 17.2s    remaining: 0us
+
+bestTest = 15.9012211
+bestIteration = 299
+
+Metrix for CatBoost
+MAE:  12.8128   # (средняя абсолютная ошибка)
+RMSE: 15.9012   # (корень среднеквадратичной ошибки)
+R²:   0.5985   # (коэффициент детерминации)
+Metrix for RandomForest
+MAE:  12.6954   # (средняя абсолютная ошибка)
+RMSE: 17.2067   # (корень среднеквадратичной ошибки)
+R²:   0.5387   # (коэффициент детерминации)
+[0] validation_0-rmse:22.23517
+[100]   validation_0-rmse:17.95359
+[200]   validation_0-rmse:17.92726
+[299]   validation_0-rmse:17.90904
+Metrix for XGBoost
+MAE:  14.1506   # (средняя абсолютная ошибка)
+RMSE: 17.9090   # (корень среднеквадратичной ошибки)
+R²:   0.5002   # (коэффициент детерминации)
