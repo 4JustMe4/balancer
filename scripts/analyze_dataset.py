@@ -46,18 +46,22 @@ print(f"- Временной промежуток (от первого до по
 
 status_counts = df['success'].value_counts().sort_index()
 
-fig, ax = plt.subplots(figsize=(5,4))
+# Подписи для секторов
+labels = ['Неуспех', 'Успех']
+sizes = [status_counts.get(0, 0), status_counts.get(1, 0)]
+colors = ['salmon', 'skyblue']
 
-bars = ax.bar(
-    ['Неуспех', 'Успех'],
-    [status_counts.get(0, 0), status_counts.get(1, 0)],
-    color=['salmon', 'skyblue'],
-    width=0.7
+# Круговая диаграмма
+plt.figure(figsize=(5,5))
+plt.pie(
+    sizes,
+    labels=labels,
+    autopct='%1.1f%%',
+    colors=colors,
+    startangle=90,
+    counterclock=False
 )
-
-ax.set_title('Распределение успешности выполнения задач')
-ax.set_xlabel('Статус задачи')
-ax.set_ylabel('Количество')
-ax.set_ylim(0, max(status_counts)*1.1)
+plt.title('Распределение успешности выполнения задач')
+plt.axis('equal')  # Круговая форма
 plt.tight_layout()
 plt.show()
