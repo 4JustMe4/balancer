@@ -10,8 +10,10 @@ TASKS_NUMBER = 100
 SQUARE_SIZE = 10
 
 
-def formatName(i, suff):
+def formatName(i, suff, multi_mode):
     n = SQUARE_SIZE * 2
+    if multi_mode:
+        return  f'../data/latin{n}x{n}_task_multi_{i}_{suff}'
     return f'../data/latin{n}x{n}_task_{i}_{suff}'
 
 
@@ -131,7 +133,6 @@ def create_tasks(squares, multi_mode):
 
             for suff in ['Transversal', 'DTransversal']:
                 if multi_mode:
-                    suff = 'Multi' + suff
                     doubleSquare = createMultiDoubleSquare(smallSquares)
                 else:
                     doubleSquare = createDoubleSquare(square)
@@ -139,7 +140,7 @@ def create_tasks(squares, multi_mode):
                 if not verifyLatinSquare(doubleSquare):
                     click.echo(f"Can't create doubel square from {i + 1}")
                 else:
-                    f = os.path.abspath(formatName(currentNum // 2, suff))
+                    f = os.path.abspath(formatName(currentNum // 2, suff, multi_mode))
                     printLatinSquare(doubleSquare, f)
                     currentNum += 1
             if currentNum >= 2 * squares:
@@ -153,7 +154,7 @@ def create_tasks(squares, multi_mode):
     for name in ['Transversal', 'DTransversal']:
         click.echo(f"Register inputs for {name}")
         for i in range(squares):
-            absPathFile = os.path.join(cwd, formatName(i, name))
+            absPathFile = os.path.join(cwd, formatName(i, name, multi_mode))
             filename = os.path.basename(absPathFile)
             print(absPathFile, filename)
             shutil.copy(absPathFile, filename)
