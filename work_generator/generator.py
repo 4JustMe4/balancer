@@ -131,6 +131,7 @@ def create_tasks(squares, multi_mode):
 
             for suff in ['Transversal', 'DTransversal']:
                 if multi_mode:
+                    suff = 'Multi' + suff
                     doubleSquare = createMultiDoubleSquare(smallSquares)
                 else:
                     doubleSquare = createDoubleSquare(square)
