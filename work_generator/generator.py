@@ -86,18 +86,33 @@ def createDoubleSquare(square):
     return result
 
 
+def createMultiDoubleSquare(data):
+    n = len(data[-1])
+    result = [ [0 for j in range(2 * n)] for i in range(2 * n)]
+    for i in range(n):
+        for j in range(n):
+            result[i][j] = data[-1][i][j]
+            result[i][j + n] = data[-2][i][j] + n
+            result[i + n][j] = data[-3][i][j] + n
+            result[i + n][j + n] = data[-4][i][j]
+
+    return result
+
+
 @click.command()
 @click.option('--squares', default=TASKS_NUMBER, help='Number of squares for generation')
-def create_tasks(squares):
+@click.option('--multi-mode', default=False, help='Generate square from different squares')
+def create_tasks(squares, multi_mode):
     click.echo(f"{squares} will be created")
     with open(f'../data/latin{SQUARE_SIZE}x{SQUARE_SIZE}') as f:
         data = f.read().split('\n')
 
     # random.shuffle(data)
     currentNum = 0
+    smallSquares = []
     for i in range(len(data)):
-        if i % 10 == 0 or squares < 10:
-            click.echo(f"Creating {i + 1}")
+        if (currentNum // 2) % 10 == 0 or squares < 10:
+            click.echo(f"Creating {currentNum // 2 + 1}")
 
         if len(data[i]) == SQUARE_SIZE**2:
             strSquare = [data[i][j*SQUARE_SIZE:j*SQUARE_SIZE+SQUARE_SIZE] for j in range(SQUARE_SIZE)]
@@ -109,14 +124,22 @@ def create_tasks(squares):
             if not verifyLatinSquare(square):
                 click.echo(f"Ignore line {i + 1}. No valid latin square")
                 continue
+            smallSquares.append(square)
+
+            if multi_mode and len(smallSquares) < 4:
+                continue
 
             for suff in ['Transversal', 'DTransversal']:
-                doubelSquare = createDoubleSquare(square)
-                if not verifyLatinSquare(doubelSquare):
+                if multi_mode:
+                    doubleSquare = createMultiDoubleSquare(smallSquares)
+                else:
+                    doubleSquare = createDoubleSquare(square)
+
+                if not verifyLatinSquare(doubleSquare):
                     click.echo(f"Can't create doubel square from {i + 1}")
                 else:
                     f = os.path.abspath(formatName(currentNum // 2, suff))
-                    printLatinSquare(doubelSquare, f)
+                    printLatinSquare(doubleSquare, f)
                     currentNum += 1
             if currentNum >= 2 * squares:
                 break
