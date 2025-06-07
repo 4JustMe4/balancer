@@ -161,7 +161,10 @@ def create_tasks(squares, multi_mode):
             result = subprocess.check_output(['bin/stage_file', filename]).decode()
             click.echo(f"Staging result for {name}: {result}")
 
-            wu_name = f'{name}_{i}_{datetime.datetime.now().strftime("%Y-%m-%d_%H_%M_%S_%f")}'
+            if multi_mode:
+                wu_name = f'multi_{name}_{i}_{datetime.datetime.now().strftime("%Y-%m-%d_%H_%M_%S_%f")}'
+            else:
+                wu_name = f'{name}_{i}_{datetime.datetime.now().strftime("%Y-%m-%d_%H_%M_%S_%f")}'
             result = subprocess.check_output(['bin/create_work', '--appname', name, '--wu_name', wu_name, filename]).decode()
             click.echo(f"Creating result for {wu_name}: {result}")
 
