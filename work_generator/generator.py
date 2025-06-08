@@ -7,7 +7,7 @@ import subprocess
 import time
 
 TASKS_NUMBER = 100
-SQUARE_SIZE = 10
+SQUARE_SIZE = 8
 
 
 def formatName(i, suff, multi_mode):
