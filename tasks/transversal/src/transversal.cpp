@@ -1,6 +1,7 @@
 #include <transversal.hpp>
 
 #include <bitset>
+#include <bit>
 #include <cassert>
 #include <chrono>
 #include <ctime>
@@ -9,7 +10,7 @@
 #include <sstream>
 
 namespace {
-    constexpr int MAX_SQUARE_SIZE = 32;
+    constexpr int MAX_SQUARE_SIZE = 64;
 
     inline auto getFormatedTime() {
         auto now = std::chrono::system_clock::now();
@@ -24,20 +25,22 @@ namespace {
         const TSquare& s,
         int n,
         int row,
-        uint32_t usedNumber,
-        uint32_t usedCoulmn
+        uint64_t usedNumber,
+        uint64_t allowedColumn
     ) {
         if (n == row) {
             return 1;
         }
         uint64_t ans = 0;
-        for (int i = 0; i < n; i++) {
-            if (!(usedCoulmn & (1 << i)) && !(usedNumber & (1 << s[row][i]))) {
+        for (uint64_t mask = allowedColumn; mask != 0; mask = mask & (mask - 1)) {
+            uint32_t bit = mask & -mask;
+            int i = std::countr_zero(bit); 
+            if (!(usedNumber & (1 << s[row][i]))) {
                 usedNumber ^= 1 << s[row][i];
-                usedCoulmn ^= 1 << i;
-                ans += transversalNumberImpl(s, n, row + 1, usedNumber, usedCoulmn);
+                allowedColumn ^= 1 << i;
+                ans += transversalNumberImpl(s, n, row + 1, usedNumber, allowedColumn);
                 usedNumber ^= 1 << s[row][i];
-                usedCoulmn ^= 1 << i;
+                allowedColumn ^= 1 << i;
             }
         }
         return ans;
@@ -48,12 +51,13 @@ uint64_t transversalNumber(const TSquare& s) {
     int limit = s.size() == 10 ? 40 : 1;
     uint64_t result;
     for (int i = 0; i < limit; i++) {
-        std::cerr << getFormatedTime() << " Cacl Transversal number" << std::endl;
+        std::cerr << getFormatedTime() << " Calc Transversal number" << std::endl;
         int n = s.size();
         uint64_t usedNumber = 0;
-        uint64_t usedCoulmn = 0;
+        uint64_t allowedColumn = (1 << n) - 1;
         assert(n < MAX_SQUARE_SIZE);
-        result = transversalNumberImpl(s, n, 0, usedNumber, usedCoulmn);
+        result = transversalNumberImpl(s, n, 0, usedNumber, allowedColumn);
+        std::cerr << getFormatedTime() << " End of calc" << std::endl;
     }
     return result;
 }
