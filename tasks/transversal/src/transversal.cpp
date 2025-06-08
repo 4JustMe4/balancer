@@ -9,7 +9,7 @@
 #include <sstream>
 
 namespace {
-    constexpr int MAX_SQUARE_SIZE = 128;
+    constexpr int MAX_SQUARE_SIZE = 64;
 
     inline auto getFormatedTime() {
         auto now = std::chrono::system_clock::now();
@@ -24,20 +24,20 @@ namespace {
         const TSquare& s,
         int n,
         int row,
-        std::bitset<MAX_SQUARE_SIZE>& usedNumber,
-        std::bitset<MAX_SQUARE_SIZE>& usedCoulmn
+        uint64_t usedNumber,
+        uint64_t usedCoulmn
     ) {
         if (n == row) {
             return 1;
         }
         uint64_t ans = 0;
         for (int i = 0; i < n; i++) {
-            if (!usedNumber[s[row][i]] && !usedCoulmn[i]) {
-                usedNumber[s[row][i]] = 1;
-                usedCoulmn[i] = 1;
+            if (!(usedNumber & (1 << s[row][i])) && !(usedCoulmn & (1 << i))) {
+                usedNumber ^= 1 << s[row][i];
+                usedCoulmn ^= 1 << i;
                 ans += transversalNumberImpl(s, n, row + 1, usedNumber, usedCoulmn);
-                usedNumber[s[row][i]] = 0;
-                usedCoulmn[i] = 0;
+                usedNumber ^= 1 << s[row][i];
+                usedCoulmn ^= 1 << i;
             }
         }
         return ans;
@@ -50,8 +50,8 @@ uint64_t transversalNumber(const TSquare& s) {
     for (int i = 0; i < limit; i++) {
         std::cerr << getFormatedTime() << " Cacl Transversal number" << std::endl;
         int n = s.size();
-        std::bitset<MAX_SQUARE_SIZE> usedNumber;
-        std::bitset<MAX_SQUARE_SIZE> usedCoulmn;
+        uint64_t usedNumber = 0;
+        uint64_t usedCoulmn = 0;
         assert(n < MAX_SQUARE_SIZE);
         result = transversalNumberImpl(s, n, 0, usedNumber, usedCoulmn);
     }
