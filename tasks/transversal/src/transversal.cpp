@@ -32,7 +32,8 @@ namespace {
         }
         uint64_t ans = 0;
         for (int i = 0; i < n; i++) {
-            if (!(usedNumber & (1 << s[row][i])) && !(usedCoulmn & (1 << i))) {
+
+            if (!(usedCoulmn & (1 << i)) && !(usedNumber & (1 << s[row][i]))) {
                 usedNumber ^= 1 << s[row][i];
                 usedCoulmn ^= 1 << i;
                 ans += transversalNumberImpl(s, n, row + 1, usedNumber, usedCoulmn);
