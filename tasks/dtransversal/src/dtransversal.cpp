@@ -72,6 +72,7 @@ uint64_t dtransversalNumber(const TSquare& s) {
         uint64_t allowedColumn = (1 << n) - 1;
         assert(n < MAX_SQUARE_SIZE);
         result = dtransversalNumberImpl(s, n, 0, usedNumber, allowedColumn, 0, 0);
+        std::cerr << getFormatedTime() << " End of calc" << std::endl;
     }
     return result;
 }
