@@ -9,7 +9,7 @@
 #include <sstream>
 
 namespace {
-    constexpr int MAX_SQUARE_SIZE = 64;
+    constexpr int MAX_SQUARE_SIZE = 32;
 
     inline auto getFormatedTime() {
         auto now = std::chrono::system_clock::now();
@@ -24,15 +24,14 @@ namespace {
         const TSquare& s,
         int n,
         int row,
-        uint64_t usedNumber,
-        uint64_t usedCoulmn
+        uint32_t usedNumber,
+        uint32_t usedCoulmn
     ) {
         if (n == row) {
             return 1;
         }
         uint64_t ans = 0;
         for (int i = 0; i < n; i++) {
-
             if (!(usedCoulmn & (1 << i)) && !(usedNumber & (1 << s[row][i]))) {
                 usedNumber ^= 1 << s[row][i];
                 usedCoulmn ^= 1 << i;
