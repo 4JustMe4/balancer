@@ -103,8 +103,9 @@ def createMultiDoubleSquare(data):
 
 @click.command()
 @click.option('--squares', default=TASKS_NUMBER, help='Number of squares for generation')
-@click.option('--multi-mode', default=False, help='Generate square from different squares')
-def create_tasks(squares, multi_mode):
+@click.option('--multi-mode', is_flag=True, default=False, help='Generate square from different squares')
+@click.option('--register-only', is_flag=True, default=False, help='Only registrate files in boinc without job creation')
+def create_tasks(squares, multi_mode, register_only):
     click.echo(f"{squares} will be created")
     with open(f'../data/latin{SQUARE_SIZE}x{SQUARE_SIZE}') as f:
         data = f.read().split('\n')
@@ -165,7 +166,8 @@ def create_tasks(squares, multi_mode):
                 wu_name = f'multi_{name}_{i}_{datetime.datetime.now().strftime("%Y-%m-%d_%H_%M_%S_%f")}'
             else:
                 wu_name = f'{name}_{i}_{datetime.datetime.now().strftime("%Y-%m-%d_%H_%M_%S_%f")}'
-            result = subprocess.check_output(['bin/create_work', '--appname', name, '--wu_name', wu_name, filename]).decode()
+            if not register_only:
+                result = subprocess.check_output(['bin/create_work', '--appname', name, '--wu_name', wu_name, filename]).decode()
             click.echo(f"Creating result for {wu_name}: {result}")
 
 
