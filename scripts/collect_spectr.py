@@ -26,7 +26,7 @@ def produce(regex):
                     except Exception as e:
                         print(f"Can't read file {full_path}: {e}")
 
-    expected_numbers = set(range(0, 2001))
+    expected_numbers = set(range(0, 1000))
     missing_numbers = sorted(expected_numbers - found_numbers)
 
     print("Missed squares:", missing_numbers)
@@ -35,8 +35,8 @@ def produce(regex):
     for val, number in value_to_number.items():
         print(f"{val} -> {number}")
 
-transversal_re = re.compile(r'^Transversal_(\d{1,5})_')
-dtransversal_re = re.compile(r'^DTransversal_(\d{1,5})_')
+transversal_re = re.compile(r'^multi_Transversal_(\d{1,5})_')
+dtransversal_re = re.compile(r'^multi_DTransversal_(\d{1,5})_')
 
 produce(transversal_re)
 produce(dtransversal_re)
