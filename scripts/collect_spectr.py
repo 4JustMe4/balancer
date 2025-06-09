@@ -8,6 +8,7 @@ def produce(regex):
     number_to_filename = dict()
     value_to_number = dict()
 
+    errors = 0
     for results_dir in [os.path.join(PROJECT_DIR, 'results'), os.path.join(PROJECT_DIR, 'upload')]:
         for root, dirs, files in os.walk(results_dir):
             for fname in files:
@@ -24,7 +25,7 @@ def produce(regex):
                             val = int(first_line)
                             value_to_number.setdefault(val, full_path)
                     except Exception as e:
-                        print(f"Can't read file {full_path}: {e}")
+                        errors += 1
 
     expected_numbers = set(range(0, 1000))
     missing_numbers = sorted(expected_numbers - found_numbers)
@@ -32,8 +33,10 @@ def produce(regex):
     print("Missed squares:", missing_numbers)
 
     print("Dict (value -> square_number):")
-    for val, number in value_to_number.items():
+    for val, number in sorted(value_to_number.items()):
         print(f"{val} -> {number}")
+
+    print(f'There was {errors} errors with reading')
 
 transversal_re = re.compile(r'^multi_Transversal_(\d{1,5})_')
 dtransversal_re = re.compile(r'^multi_DTransversal_(\d{1,5})_')
