@@ -3,8 +3,8 @@ import pymysql
 
 conn = pymysql.connect(host='localhost', user='boincadm', password='foobar99', db='boincdb')
 
-beg = 2066
-end = 22067
+beg = 64495
+end = 66494
 
 query = f"""
 SELECT
