@@ -33,7 +33,7 @@ def splitRegDataset(X, y):
 
 
 def readDataSet():
-    beg = 64495
+    beg = 66495
     SIZE = 16
     # df1 = pd.read_csv(f'../data/df_with_matrix_{SIZE}_{beg}_part1.csv')
     # df2 = pd.read_csv(f'../data/df_with_matrix_{SIZE}_{beg}_part2.csv')
@@ -107,11 +107,12 @@ def sanitizeNames(df):
     return df
 
 
-def getSparse(X, y, frac=0.1, random_state=42):
-    X_sparse, _, y_sparse, _ = train_test_split(
-        X, y, train_size=frac, random_state=random_state
-    )
-    return X_sparse, y_sparse
+def getSparse(X, y, frac=1, random_state=42):
+    return X, y
+    # X_sparse, _, y_sparse, _ = train_test_split(
+    #     X, y, train_size=frac, random_state=random_state
+    # )
+    # return X_sparse, y_sparse
 
 def dumpAndCompress(model, path):
     joblib.dump(model, path, compress=3)
