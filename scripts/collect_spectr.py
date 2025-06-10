@@ -7,6 +7,7 @@ def produce(regex):
     found_numbers = set()
     number_to_filename = dict()
     numbers = dict()
+    paths = dict()
 
     errors = 0
     for results_dir in [os.path.join(PROJECT_DIR, 'results'), os.path.join(PROJECT_DIR, 'upload')]:
@@ -24,8 +25,10 @@ def produce(regex):
                             first_line = next(filter(None, content.splitlines()))
                             val = int(first_line)
                             if val not in numbers:
-                                numbers[val] = [0, full_path]
-                            numbers[val][0] += 1
+                                numbers[val] = []
+                                paths[val] = full_path
+
+                            numbers[val].append(number)
                     except Exception as e:
                         errors += 1
 
@@ -35,15 +38,13 @@ def produce(regex):
     print("Missed squares:", missing_numbers)
 
     print("Dict (value -> square_number):")
-    for val, number in sorted(numbers.items()):
-        path, cnt = number
-        print(f"{val} -> {path} ({number})")
+    for val, p in sorted(paths.items()):
+        print(f"{val} -> {p} ({len(paths[val])})")
 
     print(f'There was {errors} errors with reading')
     with open('spectr.txt', 'a') as f:
         for val, number in sorted(numbers.items()):
-            path, cnt = number
-            f.write(f"{val} {cnt}")
+            f.write(f"{val} {len(set(number))}")
 
 transversal_re = re.compile(r'^multi_Transversal_(\d{1,5})_')
 dtransversal_re = re.compile(r'^multi_DTransversal_(\d{1,5})_')
