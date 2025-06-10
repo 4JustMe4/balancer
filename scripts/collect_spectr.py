@@ -6,7 +6,7 @@ PROJECT_DIR = os.path.expanduser('~/projects/myboinc/')
 def produce(regex):
     found_numbers = set()
     number_to_filename = dict()
-    value_to_number = dict()
+    numbers = dict()
 
     errors = 0
     for results_dir in [os.path.join(PROJECT_DIR, 'results'), os.path.join(PROJECT_DIR, 'upload')]:
@@ -23,7 +23,9 @@ def produce(regex):
                             content = f.read().strip()
                             first_line = next(filter(None, content.splitlines()))
                             val = int(first_line)
-                            value_to_number.setdefault(val, full_path)
+                            if val not in numbers:
+                                numbers[val] = [0, full_path]
+                            numbers[val][0] += 1
                     except Exception as e:
                         errors += 1
 
@@ -34,9 +36,14 @@ def produce(regex):
 
     print("Dict (value -> square_number):")
     for val, number in sorted(value_to_number.items()):
-        print(f"{val} -> {number}")
+        path, cnt = number
+        print(f"{val} -> {path} ({number})")
 
     print(f'There was {errors} errors with reading')
+    with open('spectr.txt', 'a') as f:
+        for val, number in sorted(value_to_number.items()):
+            path, cnt = number
+            f.write(f"{val} {cnt}")
 
 transversal_re = re.compile(r'^multi_Transversal_(\d{1,5})_')
 dtransversal_re = re.compile(r'^multi_DTransversal_(\d{1,5})_')
