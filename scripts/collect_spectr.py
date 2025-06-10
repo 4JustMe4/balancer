@@ -35,13 +35,13 @@ def produce(regex):
     print("Missed squares:", missing_numbers)
 
     print("Dict (value -> square_number):")
-    for val, number in sorted(value_to_number.items()):
+    for val, number in sorted(numbers.items()):
         path, cnt = number
         print(f"{val} -> {path} ({number})")
 
     print(f'There was {errors} errors with reading')
     with open('spectr.txt', 'a') as f:
-        for val, number in sorted(value_to_number.items()):
+        for val, number in sorted(numbers.items()):
             path, cnt = number
             f.write(f"{val} {cnt}")
 
